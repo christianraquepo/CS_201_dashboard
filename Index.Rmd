@@ -4,7 +4,7 @@ title: "CS201 FLEXDASHBOARD PRACTICE"
 #date: 11/18/2024
 output: 
   flexdashboard::flex_dashboard: 
-    orientation: column
+    orientation: column 
     vertical_layout: fill
     source_code: embed  
     theme: 
