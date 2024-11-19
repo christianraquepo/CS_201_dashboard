@@ -1,0 +1,51 @@
+---
+title: "CS201 FLEXDASHBOARD PRACTICE"
+#author: "Christian Raquepo"
+#date: 11/18/2024
+output: 
+  flexdashboard::flex_dashboard: 
+    orientation: column
+    vertical_layout: fill
+    source_code: embed  
+    theme: 
+      bootswatch: litera
+    navbar:
+      - { title: "Christian Raquepo", href: "https://christianraquepo.github.io", align: right }
+      - { icon: "fa fa-github", href: "https://github.com/christianraquepo", align: right, target: blank }
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+```
+
+```{r}
+#read_csv()
+```
+
+## Column {data-width="350"}
+
+### Star Wars Character Weights by Name
+
+```{r}
+ggplot(starwars, aes(y = height)) +
+  geom_boxplot() 
+```
+
+### Count of the Star Wars Characters' Homeworld by Gender
+
+```{r}
+ggplot(starwars, aes(x=homeworld, fill=gender)) +
+  geom_bar()
+```
+
+## Column {data-width="650"}
+
+### Star Wars Data Table
+
+```{r}
+starwars <- starwars %>%
+  select(name, height, mass, gender, species, homeworld)
+knitr::kable(starwars)
+```
