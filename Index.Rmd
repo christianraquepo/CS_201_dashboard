@@ -1,5 +1,5 @@
 ---
-title: "CS201 FLEXDASHBOARD PRACTICE"
+title: "CS201 FLEXDASHBOARD"
 #author: "Christian Raquepo"
 #date: 11/18/2024
 output: 
@@ -8,44 +8,85 @@ output:
     vertical_layout: fill
     source_code: embed  
     theme: 
-      bootswatch: litera
+      bootswatch: lux
     navbar:
       - { title: "Christian Raquepo", href: "https://christianraquepo.github.io", align: right }
       - { icon: "fa fa-github", href: "https://github.com/christianraquepo", align: right, target: blank }
+    
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(here)
 library(tidyverse)
+library(janitor)
 library(plotly)
+library(dplyr)
+library(ggplot2)
 ```
 
 ```{r}
-#read_csv()
+studentdata <- read_csv(here("data/Scores.csv"))
+
+studentdata <- studentdata %>%
+  clean_names()
 ```
 
-## Column {data-width="350"}
+## Column 
 
-### Star Wars Character Weights by Name
-
-```{r}
-ggplot(starwars, aes(y = height)) +
-  geom_boxplot() 
-```
-
-### Count of the Star Wars Characters' Homeworld by Gender
+### Student Demographics
 
 ```{r}
-ggplot(starwars, aes(x=homeworld, fill=gender)) +
+parentedu <- studentdata %>%
+  summarize(parent_educ)
+  
+ggplot(parentedu, aes(x = parent_educ)) + 
   geom_bar()
+
 ```
+##Column {.tabset}
 
-## Column {data-width="650"}
-
-### Star Wars Data Table
+### Parents Education & Student's Scores
 
 ```{r}
-starwars <- starwars %>%
-  select(name, height, mass, gender, species, homeworld)
-knitr::kable(starwars)
+ggplot(studentdata, aes(x = parent_educ, y = math_score)) + 
+   geom_line(stat = "summary", fun = mean, group = 1)
+
+ggplot(studentdata, aes(x = parent_educ, y = reading_score)) + 
+   geom_line(stat = "summary", fun = mean, group = 1)
+
+ggplot(studentdata, aes(x = parent_educ, y = writing_score)) + 
+   geom_line(stat = "summary", fun = mean, group = 1)
+
+
+```
+
+## Column {.tabset}
+
+### Math Scores
+
+```{r}
+
+math_scores <- ggplot(studentdata, aes(y = math_score)) +
+  geom_boxplot()
+
+ggplotly(math_scores)
+```
+### Reading Scores
+
+```{r}
+
+reading_scores <- ggplot(studentdata, aes(y = reading_score)) +
+  geom_boxplot()
+
+ggplotly(reading_scores)
+```
+### Writing Scores
+
+```{r}
+
+writing_scores <- ggplot(studentdata, aes(y = writing_score)) +
+  geom_boxplot()
+
+ggplotly(writing_scores)
 ```
